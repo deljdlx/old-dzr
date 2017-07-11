@@ -16,15 +16,17 @@ class User extends Entity
 
     /**
      * @param $slug
-     * @return Playlist
+     * @return bool|Playlist
      */
     public function getPlayListBySlug($slug)
     {
-
         $playlist = new Playlist($this->dataSource);
-        $playlist->loadBySlugAndUserId($slug, $this->getValue('id'));
-
-        return $playlist;
+        if($playlist->loadBySlugAndUserId($slug, $this->getValue('id'))) {
+            return $playlist;
+        }
+        else {
+            return false;
+        }
     }
 
     /**

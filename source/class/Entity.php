@@ -21,6 +21,11 @@ abstract class Entity implements \JsonSerializable
     }
 
 
+
+    abstract public static function getTableName();
+
+    abstract public static function getIdFieldName();
+
     /**
      * @return $this
      */
@@ -86,6 +91,9 @@ abstract class Entity implements \JsonSerializable
      */
     public function insert()
     {
+
+        $this->setValue($this->getIdFieldName(), $this->generateId());
+
         $fieldNames = array_keys($this->values);
         $fields = implode(',', $fieldNames);
         $values = array();
@@ -105,11 +113,12 @@ abstract class Entity implements \JsonSerializable
                 " . $valuesPlaceHolders . "
             )
         ";
+
         $this->dataSource->execute(
             $query,
             $values
         );
-        $this->setValue($this->getIdFieldName(), $this->dataSource->lastInsertId());
+
         return $this;
     }
 
@@ -143,8 +152,12 @@ abstract class Entity implements \JsonSerializable
         if (!empty($rows)) {
             $this->loaded = true;
             $this->values = reset($rows);
+            return $this;
         }
-        return $this;
+        else {
+            return false;
+        }
+
     }
 
     public function isLoaded($value = null)
@@ -230,10 +243,11 @@ abstract class Entity implements \JsonSerializable
         return $this->dataSource->execute($query, $parameters);
     }
 
+    private function generateId() {
+        return md5(gethostname()).uniqid('', true);
+    }
 
-    abstract public static function getTableName();
 
-    abstract public static function getIdFieldName();
 
 
 }

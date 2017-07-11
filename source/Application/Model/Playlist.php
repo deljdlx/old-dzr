@@ -44,35 +44,48 @@ class Playlist extends Entity
     {
         $this->songs = array();
 
-        $results = $this->dataSource->execute(
-            "SELECT
+        $query="
+            SELECT
               song.id,
-              song.name,
-              song.duration
+              song.title,
+              song.duration,
+              song.data,
+              song.artist_id
             FROM
                 " . $this->getTableName() . " playlist
             JOIN " . Playlist_Song::getTableName() . " relation
                 ON relation.playlist_id=playlist.id
-            JOIN " . Song::getTableName() . " song
+            LEFT JOIN " . Song::getTableName() . " song
                 ON relation.song_id=song.id
-            WHERE playlist.user_id=:userId AND slug=:slug",
+            WHERE playlist.user_id=:userId AND slug=:slug";
+
+        $results = $this->dataSource->execute(
+            $query,
             array(
                 ':userId' => $userId,
                 ':slug' => $slug
             )
         );
 
+
         if(!empty($results)) {
             foreach ($results as $values) {
-                $song = new Song($this->dataSource);
-                $song->setValues($values);
-                $this->songs[$song->getId()] = $song;
+                if($values['id']) {
+                    $song = new Song($this->dataSource);
+                    $song->setValues($values);
+                    $this->songs[$song->getId()] = $song;
+                }
+
             }
             $this->isLoaded(true);
+            return $this;
+        }
+        else {
+            return false;
         }
 
 
-        return $this;
+
     }
 
 
@@ -112,18 +125,20 @@ class Playlist extends Entity
             )
         );
 
-        foreach ($results as $values) {
-            $song = new Song($this->dataSource);
-            $song->setValues($values);
-            $this->songs[$song->getId()] = $song;
+        if(!empty($results)) {
+            foreach ($results as $values) {
+                $song = new Song($this->dataSource);
+                $song->setValues($values);
+                $this->songs[$song->getId()] = $song;
+            }
         }
+
         return $this;
     }
 
 
     public function addSong(Song $song)
     {
-        //$this->songs[$song->getId()] = $song;
         $relation = new Playlist_Song($this->dataSource);
         $relation->setPlaylist($this);
         $relation->setSong($song);

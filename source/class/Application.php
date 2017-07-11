@@ -19,7 +19,7 @@ class Application
     private $request;
 
 
-    private $headers=array();
+    private $headers = array();
 
 
     public function __construct()
@@ -37,14 +37,13 @@ class Application
     {
         if (array_key_exists($name, $this->containers)) {
             return $this->containers[$name];
-        }
-        else {
+        } else {
             return null;
         }
     }
 
 
-    public function route($regexp, $callback, $verb='GET')
+    public function route($regexp, $callback, $verb = 'GET')
     {
 
         $route = new Route($this, $verb, $regexp, $callback);
@@ -53,35 +52,24 @@ class Application
     }
 
 
-
-
-    function sendJSONResponse($data, $additionnalHeaders=array()) {
-        $this->headers[]='Content-type: application/json, charset="utf-8"';
-        foreach ($additionnalHeaders as $header) {
-            $this->headers[]=$header;
-        }
-
-        $this->sendHeaders();
-        echo json_encode($data);
-    }
-
-    public function notFound() {
-        $this->headers[]="HTTP/1.0 404 Not Found";
-        return $this;
+    function sendJSONResponse($data, $additionnalHeaders = array())
+    {
+        $response=new Response(
+            json_encode($data),
+            array_merge((array) $additionnalHeaders, array('Content-type: application/json, charset="utf-8"'))
+        );
+        $response->send();
+        return $response;
     }
 
 
-    public function sendHeaders() {
-        foreach ($this->headers as $header) {
-            header($header);
-        }
-        return $this;
-    }
+
+
 
 
     public function run(Request $request)
     {
-        $this->request=$request;
+        $this->request = $request;
 
         foreach ($this->routes as $route) {
             if ($route->validate($request)) {

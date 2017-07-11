@@ -48,6 +48,7 @@ class Route
         /** it works but must be refactored if i want to do something like Sy....*/
         if (preg_match_all($this->regexp, $request->getURI(), $matches, \PREG_SET_ORDER) && $verbValid) {
 
+
             if (array_key_exists(0, $matches)) {
 
                 $parameters = $matches[0];

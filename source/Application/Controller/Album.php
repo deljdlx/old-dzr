@@ -4,9 +4,9 @@ namespace DZR\Application\Controller;
 
 use DZR\Controller;
 use DZR\Datasource;
-use DZR\Application\Model\Song as EntitySong;
+use DZR\Application\Model\Album as EntityAlbum;
 
-class Song extends Controller
+class Album extends Controller
 {
 
     /**
@@ -14,16 +14,10 @@ class Song extends Controller
      */
     protected $datasource;
 
-    public function search($search) {
-        $entitySong = new EntitySong($this->datasource);
-
-        return $entitySong->search($search);
-    }
-
     public function getInfoById($id)
     {
 
-        $entitySong = new EntitySong($this->datasource);
+        $entitySong = new EntityAlbum($this->datasource);
 
         if($entitySong->loadById($id)) {
             return $entitySong;

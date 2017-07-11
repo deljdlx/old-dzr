@@ -17,9 +17,22 @@ class Datasource
     }
 
 
-    public function execute($query, array $parameters)
+    public function execute($query, array $parameters=array())
     {
         $statement = $this->driver->prepare($query);
+        if(!$statement) {
+
+            $errorInfo=$this->driver->errorInfo();
+            $message='';
+            foreach ($errorInfo as $key=>$value) {
+                $message.='['.$key. "] ".$value."\n";
+            }
+
+
+            throw new \Exception(
+                'PDO error : '.$message
+            );
+        }
         $result = $statement->execute($parameters);
 
         if ($result) {
@@ -28,6 +41,7 @@ class Datasource
             return null;
         }
     }
+
 
     public function lastInsertId($name = null)
     {

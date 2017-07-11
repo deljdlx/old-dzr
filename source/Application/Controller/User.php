@@ -23,10 +23,16 @@ class User extends Controller
     }
 
 
-    public function getFavoritePlaylist($userId) {
+    public function getPlaylist($userId, $playlistSlug = PlayList::FAVORITE_PLAYLIST_SLUG)
+    {
         $entityUser = new EntityUser($this->datasource);
         $entityUser->loadById($userId);
-        $playlist=$entityUser->getPlayListBySlug(PlayList::FAVORITE_PLAYLIST_SLUG);
-        return $playlist;
+        try {
+            $playlist = $entityUser->getPlayListBySlug($playlistSlug);
+            return $playlist;
+        }
+        catch (\UnexpectedValueException $exception) {
+            return false;
+        }
     }
 }

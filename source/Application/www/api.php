@@ -143,7 +143,12 @@ $application->route('`/user/(.*?)/favorites(?:$|\?)`', function ($userId) {
 
 
 
-$application->route('`/playlist/(.+?)/add-song/(.+?)(?:$|\?)`', function ($playlistId, $songId) {
+$application->route('`/playlist/(.+?)/add-song(?:$|\?)`', function ($playlistId) {
+
+
+
+    $songId=$_POST['songId'];
+
     $controller = new \DZR\Application\Controller\Playlist();
     $controller->inject('datasource', $this->get('datasource'));
 
@@ -157,7 +162,7 @@ $application->route('`/playlist/(.+?)/add-song/(.+?)(?:$|\?)`', function ($playl
             'message' => 'Failed to add song (id  ' . $songId . ') to play-list (id ' . $playlistId . ')'
         ));
     }
-}, array('POST', 'GET'));
+}, array('POST'));
 
 
 //=======================================================

@@ -3,89 +3,6 @@
 require(__DIR__ . '/../bootstrap.php');
 
 
-/*
-$user=new \DZR\Application\Model\User($datasource);
-$user->loadById(1);
-$user->loadPlaylists();
-
-foreach ($user->getPlayLists() as $playlist) {
-    echo '<pre id="' . __FILE__ . '-' . __LINE__ . '" style="border: solid 1px rgb(255,0,0); background-color:rgb(255,255,255)">';
-    echo '<div style="background-color:rgba(100,100,100,1); color: rgba(255,255,255,1)">' . __FILE__ . '@' . __LINE__ . '</div>';
-    print_r($playlist->jsonSerialize());
-    echo '</pre>';
-}
-*/
-
-/*
-$playlist=new \DZR\Application\Model\Playlist($datasource);
-$playlist->loadById(1);
-
-$songs=$playlist->getSongs();
-$playlist->removeSong($songs[2]);
-*/
-
-
-//die('EXIT '.__FILE__.'@'.__LINE__);
-
-//$playlist->addSong($song);
-
-
-/*
-$song=new \DZR\Application\Model\Song($datasource);
-$song->setValue('name', 'Exit Music for a film');
-$song->setValue('duration',  120);
-$song->store();
-*/
-
-/*
-$song=new \DZR\Application\Model\Song($datasource);
-$song->loadById(2);
-
-$playlist=new \DZR\Application\Model\Playlist($datasource);
-$playlist->loadById(1);
-$playlist->addSong($song);
-*/
-
-/*
-$user=new \DZR\Application\Model\User($datasource);
-$user->loadById(1);
-$playlist->setUser($user);
-$playlist->store();
-die('EXIT '.__FILE__.'@'.__LINE__);
-*/
-
-
-/*
-$user=new \DZR\Application\Model\User($datasource);
-$user->setValue('email', 'ju.delsescaux@gmail.com');
-$user->store();
-*/
-
-
-/*
-$album=new \DZR\Application\Model\Album($datasource);
-$album->loadById('041e69294f0093ed9b5f0fc3950030425964c07499e2b3.448');
-$songs=$album->getSongs();
-echo '<pre id="' . __FILE__ . '-' . __LINE__ . '" style="border: solid 1px rgb(255,0,0); background-color:rgb(255,255,255)">';
-echo '<div style="background-color:rgba(100,100,100,1); color: rgba(255,255,255,1)">' . __FILE__ . '@' . __LINE__ . '</div>';
-print_r($songs);
-echo '</pre>';
-die('EXIT '.__FILE__.'@'.__LINE__);
-*/
-
-
-/*
-$song=new \DZR\Application\Model\Song($datasource);
-$song->loadById('041e69294f0093ed9b5f0fc3950030425964c185c94bb2.391');
-
-echo '<pre id="' . __FILE__ . '-' . __LINE__ . '" style="border: solid 1px rgb(255,0,0); background-color:rgb(255,255,255)">';
-echo '<div style="background-color:rgba(100,100,100,1); color: rgba(255,255,255,1)">' . __FILE__ . '@' . __LINE__ . '</div>';
-print_r($song->getAlbums());
-echo '</pre>';
-die('EXIT '.__FILE__.'@'.__LINE__);
-
-*/
-
 $application->route('`/user/(.+?)/info(?:$|\?)`', function ($userId) {
     $controller = new \DZR\Application\Controller\User();
     $controller->inject('datasource', $this->get('datasource'));
@@ -296,7 +213,25 @@ $application->route('`(?:www/(?:$|\?))|(?:api\.php(?:$|\?))`', function () {
                     'description' => 'HTTP GET. Search song',
                     'exemple' => 'api.php/song/search?q=hello'
                 ),
-            )
+            ),
+            'playlist' => array(
+                '[api.php?]/playlist/{playlistId}/add-song' => array(
+                    'description' => 'HTTP POST. Add song to a playlist',
+                    'parameters'=>array(
+                        'songId'=>"ID of the song to add"
+                    ),
+                    'exemple' => 'api.php/http://127.0.0.1/__divers/dzr/source/Application/www/api.php/playlist/041e69294f0093ed9b5f0fc3950030425964afaec10276.573/add-song'
+                ),
+                '[api.php?]/song/search?q={search}' => array(
+                    'description' => 'HTTP GET. Search song',
+                    'exemple' => 'api.php/song/search?q=hello'
+                ),
+            ),
+
+
+
+
+
 
         )
     ));

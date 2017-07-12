@@ -108,22 +108,24 @@ class Playlist extends Entity
     public function loadSongs()
     {
         $this->songs = array();
-        $results = $this->dataSource->execute(
+
+        $query=
             "SELECT
                   song.id,
-                  song.name,
-                  song.duration
+                  song.title,
+                  song.duration,
+                  song.data
                 FROM
                     " . $this->getTableName() . " playlist
                 JOIN " . Playlist_Song::getTableName() . " relation
                     ON relation.playlist_id=:playlistId
                 JOIN " . Song::getTableName() . " song
                     ON relation.song_id=song.id
-                ",
-            array(
-                ':playlistId' => $this->getId()
-            )
-        );
+                ";
+
+        $results = $this->dataSource->execute($query,array(
+            ':playlistId' => $this->getId()
+        ));
 
         if(!empty($results)) {
             foreach ($results as $values) {
@@ -148,6 +150,7 @@ class Playlist extends Entity
 
     public function removeSong(Song $song)
     {
+
         if(array_key_exists($song->getId(), $this->getSongs())) {
             unset($this->songs[$song->getId()]);
             $relation = new Playlist_Song($this->dataSource);

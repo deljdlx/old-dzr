@@ -14,6 +14,25 @@ class Artist extends Controller
      */
     protected $datasource;
 
+
+    public function searchSongsByArtist($query) {
+
+        $artist = new EntityArtist($this->datasource);
+
+        $artists=$artist->search($query);
+
+        if(!empty($artists)) {
+
+            $songs=array();
+            foreach ($artists as $artist) {
+                $songs=array_merge($songs, $artist->getSongs());
+            }
+            return $songs;
+        }
+        return false;
+    }
+
+
     public function getInfoById($id)
     {
 

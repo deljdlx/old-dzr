@@ -1,0 +1,90 @@
+
+div.playlist {
+
+}
+
+
+div.song button {
+    text-align: left;
+    width: calc(100% - 30px);
+    height: 58px;
+    background-color: #CCC;
+    color: #999;
+    display: inline-block;
+    vertical-align: middle;
+    border: solid 1px #AAA;
+    border-right:none;
+    border-radius: 7px 0 0 7px;
+}
+
+div.song.active button {
+    background-color: #EEE;
+    color: #000;
+}
+
+
+
+div.playlist div.song button.delete {
+    text-align: left;
+    width:30px;
+    background-color: #EEE;
+    border-right: solid 1px #AAA;
+    border-radius: 0 0 0 0;
+    text-align:center;
+}
+
+
+div.playlist div.song button.delete:hover {
+    background-color: #FEE;
+}
+
+
+div.playlist div.song button.add {
+    display:none;
+}
+
+
+div.song button img {
+    height:52px;
+    float: left;
+    margin-right: 4px;
+}
+
+
+
+
+
+
+
+div.searchBox div.song button.add {
+    text-align: left;
+    width:30px;
+    background-color: #EEE;
+    border-right: solid 1px #AAA;
+    border-radius: 0 0 0 0;
+    text-align:center;
+}
+
+
+div.searchBox div.song button.delete {
+    display:none;
+}
+
+
+
+div.searchBox div.list {
+    margin-top: 16px;
+    height: 264px;
+    overflow:auto;
+}
+
+div.searchBox input {
+    width:100%;
+}
+
+div.searchBox button {
+    border-radius: 7px 0px 0px 7px;
+}
+
+
+

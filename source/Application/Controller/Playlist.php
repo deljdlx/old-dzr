@@ -30,10 +30,23 @@ class Playlist extends Controller
                 $playlist->addSong($song);
                 return $playlist;
             }
-
         }
-
         return null;
+    }
+
+    public function removeSongFromPlaylist($playlistId, $songId) {
+        $playlist = new EntityPlaylist($this->datasource);
+        $playlist->loadById($playlistId);
+
+        if($playlist->isLoaded()) {
+            $song = new Song($this->datasource);
+            $song->loadById($songId);
+
+            if($song->isLoaded()) {
+                $playlist->removeSong($song);
+                return $playlist;
+            }
+        }
     }
 
 }

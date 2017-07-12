@@ -1,0 +1,27 @@
+body {
+    background-color:#CCC;
+}
+#container {
+    width: 600px;
+    background-color:#000;
+    padding: 16px;
+    margin: auto;
+}
+
+#player {
+    height: 92px;
+    overflow:hidden;
+    border-bottom: solid 16px #000;
+}
+
+
+#playlist {
+    height: 300px;
+    overflow:auto;
+    float: left;
+    width:300px;
+}
+#search {
+    float: right;
+    width:280px;
+}

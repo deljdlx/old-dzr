@@ -62,8 +62,6 @@ $application->route('`/user/(.*?)/favorites(?:$|\?)`', function ($userId) {
 
 $application->route('`/playlist/(.+?)/add-song(?:$|\?)`', function ($playlistId) {
 
-
-
     $songId=$_POST['songId'];
 
     $controller = new \DZR\Application\Controller\Playlist();
@@ -80,6 +78,27 @@ $application->route('`/playlist/(.+?)/add-song(?:$|\?)`', function ($playlistId)
         ));
     }
 }, array('POST'));
+
+
+$application->route('`/playlist/(.+?)/remove-song/(.*?)(?:$|\?)`', function ($playlistId, $songId) {
+
+
+    $controller = new \DZR\Application\Controller\Playlist();
+    $controller->inject('datasource', $this->get('datasource'));
+
+    $playlist = $controller->removeSongFromPlaylist($playlistId, $songId);
+
+    if ($playlist) {
+        $this->sendJSONResponse($playlist);
+    } else {
+        $this->notFound();
+        $this->sendJSONResponse(array(
+            'message' => 'Failed to remove song (id  ' . $songId . ') to play-list (id ' . $playlistId . ')'
+        ));
+    }
+}, array('DELETE'));
+
+
 
 
 //=======================================================
@@ -167,6 +186,20 @@ $application->route('`/artist/(.*?)/albums(?:$|\?)`', function ($artisteId) {
     } else {
         $this->sendJSONResponse(array(
             'message' => 'No artist with id "' . $artisteId . '"'
+        ));
+    }
+});
+
+$application->route('`/artist/search\?q=(.*)`', function ($searchArtist) {
+    $controller = new \DZR\Application\Controller\Artist();
+    $controller->inject('datasource', $this->get('datasource'));
+    $songs = $controller->searchSongsByArtist($searchArtist);
+
+    if ($songs) {
+        $this->sendJSONResponse($songs);
+    } else {
+        $this->sendJSONResponse(array(
+            'message' => 'No song founded for artist "' . $searchArtist . '"'
         ));
     }
 });

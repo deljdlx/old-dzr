@@ -13,6 +13,11 @@ class Artist extends Entity
      */
     private $albums;
 
+    /**
+     * @var Song[]
+     */
+    private $songs;
+
     public function getAlbums()
     {
         if ($this->albums === null) {
@@ -28,20 +33,72 @@ class Artist extends Entity
                 WHERE album.artist_id=:artiste_id";
 
 
+            $results = $this->execute($query, array(':artiste_id' => $this->getId()));
 
-            $results=$this->execute($query, array(':artiste_id'=>$this->getId()));
-
-            if(!empty($results)) {
+            if (!empty($results)) {
                 foreach ($results as $data) {
-                    $album=new Album($this->getDatasource());
+                    $album = new Album($this->getDatasource());
                     $album->setValues($data);
-                    $this->albums[]=$album;
+                    $this->albums[] = $album;
                 }
             }
         }
 
         return $this->albums;
     }
+
+
+    public function getSongs()
+    {
+        if ($this->songs === null) {
+            $this->songs = array();
+            $query = "
+                SELECT
+                    song.id,
+                    song.title,
+                    song.duration,
+                    song.artist_id,
+                    song.data
+                FROM " . Song::getTableName() . " song
+                WHERE song.artist_id=:artist_id
+            ";
+
+            $results = $this->execute($query, array('artist_id' => $this->getId()));
+            if(!empty($results)) {
+                foreach ($results as $data) {
+                    $song = new Song($this->getDatasource());
+                    $song->setValues($data);
+                    $this->songs[] = $song;
+                }
+            }
+        }
+        return $this->songs;
+    }
+
+
+
+    public function search($search)
+    {
+        $query = "
+            SELECT * FROM " . static::getTableName() . " artist
+            WHERE name LIKE :search
+        ";
+
+        $results = $this->execute($query, array(':search' => '%' . $search . '%'));
+
+        if (!empty($results)) {
+            $artists = array();
+            foreach ($results as $values) {
+                $artist = new Artist($this->getDatasource());
+                $artist->setValues($values);
+                $artists[] = $artist;
+            }
+            return $artists;
+        } else {
+            return false;
+        }
+    }
+
 
 
     public function exists()

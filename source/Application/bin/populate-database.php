@@ -15,6 +15,9 @@ $urls = array(
     'https://api.deezer.com/search?q=em',
     'https://api.deezer.com/search?q=artist:%22telephone%22',
     'https://api.deezer.com/search?q=artist:%22bowie%22',
+    'https://api.deezer.com/search?q=artist:%22bowie%22',
+    'https://api.deezer.com/search?q=artist:%22cyndi%20lauper%22',
+
 
 
 );

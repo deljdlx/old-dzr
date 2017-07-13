@@ -80,7 +80,7 @@ Song.prototype.render = function (container) {
 
     this.addTrigger = document.createElement('button');
     this.addTrigger.className = 'add';
-    this.addTrigger.innerHTML = '<i class="fa fa-check" aria-hidden="true"></i>';
+    this.addTrigger.innerHTML = '<i class="fa fa-plus" aria-hidden="true"></i>';
 
     this.addTrigger.onclick = function () {
         this.delete();

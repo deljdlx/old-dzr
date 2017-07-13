@@ -8,10 +8,22 @@ use DZR\Entity;
 class Playlist_Song extends Entity
 {
 
+    /**
+     * @var Playlist
+     */
     private $playlist;
+
+    /**
+     * @var Song
+     */
     private $song;
 
 
+    /**
+     * @param $playlistId
+     * @param $songId
+     * @return $this
+     */
     public function loadByPlaylistAndSongId($playlistId, $songId)
     {
         $query = "
@@ -30,8 +42,10 @@ class Playlist_Song extends Entity
     }
 
 
-
-
+    /**
+     * @param Playlist $playlist
+     * @return $this
+     */
     public function setPlaylist(Playlist $playlist)
     {
         $this->playlist = $playlist;
@@ -39,6 +53,10 @@ class Playlist_Song extends Entity
         return $this;
     }
 
+    /**
+     * @param Song $song
+     * @return $this
+     */
     public function setSong(Song $song)
     {
         $this->song = $song;

@@ -11,7 +11,7 @@ class Datasource
      */
     private $driver;
 
-    public function __construct($driver)
+    public function __construct(\PDO $driver)
     {
         $this->driver = $driver;
     }

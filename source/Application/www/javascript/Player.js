@@ -7,8 +7,18 @@ Player.prototype.setPlaylist = function (playlist) {
 };
 
 
+Player.prototype.pause = function () {
+    DZ.player.pause();
+};
+
 Player.prototype.play = function (song) {
-    DZ.player.playTracks([song.getDzrID()]);
+    if (song) {
+        DZ.player.playTracks([song.getDzrID()]);
+    }
+    else {
+        DZ.player.play();
+    }
+
 };
 
 Player.prototype.playMany = function (songs) {

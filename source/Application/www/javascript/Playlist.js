@@ -10,18 +10,53 @@ function Playlist(player) {
 
     this.songs = {};
 
+    this.previousSong = null;
     this.currentSong = null;
 }
+
+
+Playlist.prototype.pause = function () {
+    this.player.pause();
+};
+
+Playlist.prototype.forward = function () {
+    this.playNextSong();
+}
+
+Playlist.prototype.backward = function () {
+    if(this.previousSong) {
+        this.play(this.previousSong);
+    }
+};
+
 
 Playlist.prototype.play = function (song) {
 
     if (this.currentSong) {
+        this.previousSong = this.currentSong;
         this.currentSong.blur();
     }
 
-    this.currentSong = song;
-    song.focus();
-    this.player.play(song);
+    if (!song && !this.currentSong) {
+        for (id in this.songs) {
+            var song = this.songs[id];
+            this.currentSong = song;
+            song.focus();
+            this.player.play(song);
+            return;
+        }
+    }
+    else if (!song && this.currentSong) {
+        this.currentSong.focus();
+        this.player.play();
+    }
+    else {
+        this.currentSong = song;
+        song.focus();
+        this.player.play(song);
+    }
+
+
 };
 
 Playlist.prototype.initialize = function (configuration) {
@@ -44,8 +79,6 @@ Playlist.prototype.render = function (container) {
 Playlist.prototype.playNextSong = function () {
 
     if (this.currentSong) {
-
-
         this.currentSong.blur();
 
         if (song = this.currentSong.getNextSong()) {
@@ -119,15 +152,13 @@ Playlist.prototype.addSong = function (song) {
     this.songs[song.getId()] = song;
 
 
-    for(var id in this.songs) {
-        var lastSong=this.songs[id];
+    for (var id in this.songs) {
+        var lastSong = this.songs[id];
     }
 
-    if(lastSong) {
+    if (lastSong) {
         lastSong.setNextSong(song);
     }
-
-
 
 
     song.attachToPlayList(this);

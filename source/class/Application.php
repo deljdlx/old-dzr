@@ -19,12 +19,10 @@ class Application
     private $request;
 
 
-    private $headers = array();
-
 
     public function __construct()
     {
-
+        /**  */
     }
 
     public function register($name, $something)

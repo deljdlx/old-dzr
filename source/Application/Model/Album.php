@@ -19,6 +19,10 @@ class Album extends Entity
      */
     private $songs;
 
+    /**
+     * @param Artist $artist
+     * @return $this
+     */
     public function setArtist(Artist $artist)
     {
         $this->artist = $artist;
@@ -26,6 +30,9 @@ class Album extends Entity
         return $this;
     }
 
+    /**
+     * @return Artist
+     */
     public function getArtist()
     {
         if ($this->artist === null) {
@@ -36,6 +43,9 @@ class Album extends Entity
     }
 
 
+    /**
+     * @return Song[]|null
+     */
     public function getSongs()
     {
         if ($this->songs === null) {
@@ -55,7 +65,7 @@ class Album extends Entity
             ";
 
             $results = $this->execute($query, array('album_id' => $this->getId()));
-            if(!empty($results)) {
+            if (!empty($results)) {
                 foreach ($results as $data) {
                     $song = new Song($this->getDatasource());
                     $song->setValues($data);
@@ -69,6 +79,9 @@ class Album extends Entity
     }
 
 
+    /**
+     * @return bool
+     */
     public function exists()
     {
         $query = "SELECT " . $this->getIdFieldName() . " FROM " . $this->getTableName() . " WHERE title=:title";
@@ -85,19 +98,21 @@ class Album extends Entity
                 }
             }
 
-        } else {
-            return false;
         }
+        return false;
     }
 
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
-        $data=parent::jsonSerialize();
-        $data['songs']=array();
+        $data = parent::jsonSerialize();
+        $data['songs'] = array();
 
         foreach ($this->getSongs() as $song) {
-            $data['songs'][]=$song->getValues();
+            $data['songs'][] = $song->getValues();
         }
 
         return $data;

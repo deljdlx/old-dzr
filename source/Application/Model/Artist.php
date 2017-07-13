@@ -18,6 +18,10 @@ class Artist extends Entity
      */
     private $songs;
 
+
+    /**
+     * @return Album[]|null
+     */
     public function getAlbums()
     {
         if ($this->albums === null) {
@@ -48,6 +52,9 @@ class Artist extends Entity
     }
 
 
+    /**
+     * @return Song[]|null
+     */
     public function getSongs()
     {
         if ($this->songs === null) {
@@ -76,7 +83,10 @@ class Artist extends Entity
     }
 
 
-
+    /**
+     * @param $search
+     * @return Artist[]|bool
+     */
     public function search($search)
     {
         $query = "

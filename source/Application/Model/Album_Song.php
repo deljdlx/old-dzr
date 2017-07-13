@@ -8,10 +8,20 @@ use DZR\Entity;
 class Album_Song extends Entity
 {
 
+    /**
+     * @var Album_Song
+     */
     private $album;
+
+    /**
+     * @var Song
+     */
     private $song;
 
 
+    /**
+     * @return bool
+     */
     public function exists()
     {
         $query = "SELECT " . $this->getIdFieldName() . " FROM " . $this->getTableName() . " WHERE song_id=:song_id and album_id=:album_id";
@@ -22,11 +32,17 @@ class Album_Song extends Entity
 
         if (!empty($results)) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
 
+
+    /**
+     * @param Album $album
+     * @return $this
+     */
     public function setAlbum(Album $album)
     {
         $this->album = $album;
@@ -34,6 +50,10 @@ class Album_Song extends Entity
         return $this;
     }
 
+    /**
+     * @param Song $song
+     * @return $this
+     */
     public function setSong(Song $song)
     {
         $this->song = $song;

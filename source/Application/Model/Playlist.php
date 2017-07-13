@@ -16,6 +16,11 @@ class Playlist extends Entity
     private $songs = null;
 
 
+    /**
+     * @param $dataSource
+     * @param $userId
+     * @return Playlist[]
+     */
     public static function getManyByUserId($dataSource, $userId)
     {
         $results = $dataSource->execute(
@@ -40,11 +45,16 @@ class Playlist extends Entity
     }
 
 
+    /**
+     * @param $slug
+     * @param $userId
+     * @return $this|bool
+     */
     public function loadBySlugAndUserId($slug, $userId)
     {
         $this->songs = array();
 
-        $query="
+        $query = "
             SELECT
               song.id,
               song.title,
@@ -68,9 +78,9 @@ class Playlist extends Entity
         );
 
 
-        if(!empty($results)) {
+        if (!empty($results)) {
             foreach ($results as $values) {
-                if($values['id']) {
+                if ($values['id']) {
                     $song = new Song($this->dataSource);
                     $song->setValues($values);
                     $this->songs[$song->getId()] = $song;
@@ -85,10 +95,13 @@ class Playlist extends Entity
         }
 
 
-
     }
 
 
+    /**
+     * @param User $user
+     * @return $this
+     */
     public function setUser(User $user)
     {
         $this->user = $user;
@@ -96,6 +109,10 @@ class Playlist extends Entity
         return $this;
     }
 
+
+    /**
+     * @return Song[]|null
+     */
     public function getSongs()
     {
         if ($this->songs === null) {
@@ -105,11 +122,14 @@ class Playlist extends Entity
     }
 
 
+    /**
+     * @return $this
+     */
     public function loadSongs()
     {
         $this->songs = array();
 
-        $query=
+        $query =
             "SELECT
                   song.id,
                   song.title,
@@ -123,11 +143,11 @@ class Playlist extends Entity
                     ON relation.song_id=song.id
                 ";
 
-        $results = $this->dataSource->execute($query,array(
+        $results = $this->dataSource->execute($query, array(
             ':playlistId' => $this->getId()
         ));
 
-        if(!empty($results)) {
+        if (!empty($results)) {
             foreach ($results as $values) {
                 $song = new Song($this->dataSource);
                 $song->setValues($values);
@@ -139,6 +159,10 @@ class Playlist extends Entity
     }
 
 
+    /**
+     * @param Song $song
+     * @return $this
+     */
     public function addSong(Song $song)
     {
         $relation = new Playlist_Song($this->dataSource);
@@ -148,10 +172,15 @@ class Playlist extends Entity
         return $this;
     }
 
+
+    /**
+     * @param Song $song
+     * @return $this
+     */
     public function removeSong(Song $song)
     {
 
-        if(array_key_exists($song->getId(), $this->getSongs())) {
+        if (array_key_exists($song->getId(), $this->getSongs())) {
             unset($this->songs[$song->getId()]);
             $relation = new Playlist_Song($this->dataSource);
             $relation->loadByPlaylistAndSongId($this->getId(), $song->getId());
@@ -161,6 +190,9 @@ class Playlist extends Entity
     }
 
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         $data = parent::jsonSerialize();

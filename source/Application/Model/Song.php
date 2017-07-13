@@ -19,6 +19,9 @@ class Song extends Entity
     private $albums;
 
 
+    /**
+     * @return Album[]|null
+     */
     public function getAlbums()
     {
         if ($this->albums === null) {
@@ -44,13 +47,14 @@ class Song extends Entity
             }
         }
 
-
         return $this->albums;
-
-
     }
 
 
+    /**
+     * @param Artist $artist
+     * @return $this
+     */
     public function setArtist(Artist $artist)
     {
         $this->artist = $artist;
@@ -58,6 +62,9 @@ class Song extends Entity
         return $this;
     }
 
+    /**
+     * @return Artist
+     */
     public function getArtist()
     {
         if ($this->artist === null) {
@@ -67,16 +74,20 @@ class Song extends Entity
         return $this->artist;
     }
 
+    /**
+     * @param $search
+     * @return Song[]
+     */
     public function search($search)
     {
         $query = "
             SELECT * FROM " . static::getTableName() . " WHERE title LIKE :search
         ";
 
-        $results = $this->execute($query, array(':search' => '%'.$search.'%'));
+        $results = $this->execute($query, array(':search' => '%' . $search . '%'));
         $songs = array();
 
-        if(!empty($results)) {
+        if (!empty($results)) {
             foreach ($results as $values) {
                 $song = new Song($this->getDatasource());
                 $song->setValues($values);
@@ -92,6 +103,9 @@ class Song extends Entity
     }
 
 
+    /**
+     * @return bool
+     */
     public function exists()
     {
         $query = "SELECT " . $this->getIdFieldName() . " FROM " . $this->getTableName() . " WHERE title=:title";
@@ -110,17 +124,21 @@ class Song extends Entity
                 }
             }
 
-        } else {
+        }
+        else {
             return false;
         }
     }
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         $dataAlbum = array();
 
         foreach ($this->getAlbums() as $album) {
-            $albumData=$album->jsonSerialize();
+            $albumData = $album->jsonSerialize();
             unset($albumData['songs']);
             $dataAlbum[] = $albumData;
         }

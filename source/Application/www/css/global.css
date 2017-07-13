@@ -5,6 +5,7 @@ div.playlist {
 
 
 div.song button {
+    cursor: pointer;
     text-align: left;
     width: calc(100% - 30px);
     height: 58px;
@@ -15,7 +16,13 @@ div.song button {
     border: solid 1px #AAA;
     border-right:none;
     border-radius: 7px 0 0 7px;
+    transition: all 0.3s;
 }
+
+div.song button:hover {
+    background-color: #EFE;
+}
+
 
 div.song.active button {
     background-color: #EEE;
@@ -48,7 +55,10 @@ div.song button img {
     height:52px;
     float: left;
     margin-right: 4px;
+    transition: all 0.3s;
 }
+
+
 
 
 
@@ -74,12 +84,16 @@ div.searchBox div.song button.delete {
 
 div.searchBox div.list {
     margin-top: 16px;
-    height: 264px;
+    height: 250px;
     overflow:auto;
 }
 
 div.searchBox input {
     width:100%;
+    border-radius: 16px;
+    border: solid 1px #AAA;
+    padding: 8px;
+    font-size: 16px;
 }
 
 div.searchBox button {
@@ -87,4 +101,27 @@ div.searchBox button {
 }
 
 
+div.control {
+    text-align:center;
+}
 
+div.control .trigger {
+    margin: 0 16px 0 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    vertical-align:middle;
+    display: inline-block;
+    color:#AAA;
+    font-size: 30px;
+}
+
+
+div.control .trigger.fa-play{
+
+}
+
+
+
+div.control .trigger:hover {
+    color:#FFF;
+}

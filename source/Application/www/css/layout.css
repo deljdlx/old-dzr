@@ -1,7 +1,10 @@
 body {
     background-color:#CCC;
+    font-family: sans-serif;
 }
+
 #container {
+    margin-top: 32px;
     width: 600px;
     background-color:#000;
     padding: 16px;
@@ -20,8 +23,19 @@ body {
     overflow:auto;
     float: left;
     width:300px;
+    margin-bottom: 16px;
 }
 #search {
     float: right;
     width:280px;
+}
+
+#control {
+    clear: both;
+    margin-top: 16px;
+    border-top: solid 1px #CCC;
+    padding-top: 16px;
+    text-align: left;
+    height: 50px;
+    color:#FFF;
 }

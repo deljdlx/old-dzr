@@ -1,6 +1,7 @@
 <doctype html>
     <html>
     <head>
+        <title>My Deezer en Dix heures</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="css/layout.css"/>
         <link rel="stylesheet" href="css/global.css"/>
@@ -20,17 +21,24 @@
             <div id="playlist"></div>
             <div id="search"></div>
         </div>
-        <div style="clear:both; font-family: sans-serif; font-weight:bold; color: #666; border-top:solid 1px #666; margin-top:16px; padding-top: 16px; text-align: right; font-style:italic; text-transform: uppercase">
-            My Deezer en dix heures
+        <div style="clear:both;">
+            <div id="control">
+
+                <!--
+                <i class="fa fa-backward" aria-hidden="true"></i> |
+                <i class="fa fa-play" aria-hidden="true"></i> |
+                <i class="fa fa-pause" aria-hidden="true"></i> |
+                <i class="fa fa-forward" aria-hidden="true"></i>
+                //-->
+
+            </div>
+            <!--
+            <div style="">
+                My Deezer en dix heures
+            </div>
+            //-->
         </div>
     </div>
-
-
-
-
-
-
-
 
 
 
@@ -43,6 +51,7 @@
     <script src="javascript/Song.js"></script>
 
     <script src="javascript/SearchBox.js"></script>
+    <script src="javascript/Control.js"></script>
 
 
 
@@ -58,6 +67,9 @@
 
             var searchBox=new SearchBox(playlist, configuration);
             searchBox.render(document.getElementById('search'));
+
+            var controlBar=new Control(playlist);
+            controlBar.render(document.getElementById('control'));
 
             player.setPlaylist(playlist);
         });

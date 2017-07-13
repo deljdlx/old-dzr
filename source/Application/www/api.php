@@ -11,7 +11,8 @@ $application->route('`/user/(.+?)/info(?:$|\?)`', function ($userId) {
 
     if ($user->isLoaded()) {
         $this->sendJSONResponse($user);
-    } else {
+    }
+    else {
         $this->notFound();
         $this->sendJSONResponse(array(
             'message' => 'No user with id "' . $userId . '"'
@@ -30,7 +31,8 @@ $application->route('`/user/(.*?)/playlist/(.+?)(?:$|\?)`', function ($userId, $
     if ($playlist) {
 
         $this->sendJSONResponse($playlist);
-    } else {
+    }
+    else {
         $this->sendJSONResponse(array(
             'message' => 'No playlist "' . $playlistSlug . '" for user "' . $userId . '"'
         ), \DZR\Response::NOT_FOUND);
@@ -49,7 +51,8 @@ $application->route('`/user/(.*?)/favorites(?:$|\?)`', function ($userId) {
     if ($playlist) {
 
         $this->sendJSONResponse($playlist);
-    } else {
+    }
+    else {
         $this->sendJSONResponse(array(
             'message' => 'No favorites playlist for user "' . $userId . '"'
         ), \DZR\Response::NOT_FOUND);
@@ -57,12 +60,9 @@ $application->route('`/user/(.*?)/favorites(?:$|\?)`', function ($userId) {
 });
 
 
-
-
-
 $application->route('`/playlist/(.+?)/add-song(?:$|\?)`', function ($playlistId) {
 
-    $songId=$_POST['songId'];
+    $songId = $_POST['songId'];
 
     $controller = new \DZR\Application\Controller\Playlist();
     $controller->inject('datasource', $this->get('datasource'));
@@ -71,7 +71,8 @@ $application->route('`/playlist/(.+?)/add-song(?:$|\?)`', function ($playlistId)
 
     if ($playlist) {
         $this->sendJSONResponse($playlist);
-    } else {
+    }
+    else {
         $this->notFound();
         $this->sendJSONResponse(array(
             'message' => 'Failed to add song (id  ' . $songId . ') to play-list (id ' . $playlistId . ')'
@@ -82,7 +83,6 @@ $application->route('`/playlist/(.+?)/add-song(?:$|\?)`', function ($playlistId)
 
 $application->route('`/playlist/(.+?)/remove-song/(.*?)(?:$|\?)`', function ($playlistId, $songId) {
 
-
     $controller = new \DZR\Application\Controller\Playlist();
     $controller->inject('datasource', $this->get('datasource'));
 
@@ -90,15 +90,14 @@ $application->route('`/playlist/(.+?)/remove-song/(.*?)(?:$|\?)`', function ($pl
 
     if ($playlist) {
         $this->sendJSONResponse($playlist);
-    } else {
+    }
+    else {
         $this->notFound();
         $this->sendJSONResponse(array(
             'message' => 'Failed to remove song (id  ' . $songId . ') to play-list (id ' . $playlistId . ')'
         ));
     }
 }, array('DELETE'));
-
-
 
 
 //=======================================================
@@ -112,7 +111,8 @@ $application->route('`/song/(.*?)/info(?:$|\?)`', function ($songId) {
 
     if ($song) {
         $this->sendJSONResponse($song);
-    } else {
+    }
+    else {
         $this->sendJSONResponse(array(
             'message' => 'No song with id "' . $songId . '"'
         ));
@@ -122,21 +122,19 @@ $application->route('`/song/(.*?)/info(?:$|\?)`', function ($songId) {
 
 $application->route('`/song/search\?q=(.*)`', function ($search) {
 
-
-
     $controller = new \DZR\Application\Controller\Song();
     $controller->inject('datasource', $this->get('datasource'));
     $songs = $controller->search($search);
 
     if ($songs) {
         $this->sendJSONResponse($songs);
-    } else {
+    }
+    else {
         $this->sendJSONResponse(array(
             'message' => 'No song for search "' . $search . '"'
         ));
     }
 });
-
 
 
 //=======================================================
@@ -150,7 +148,8 @@ $application->route('`/album/(.*?)/info(?:$|\?)`', function ($songId) {
 
     if ($album) {
         $this->sendJSONResponse($album);
-    } else {
+    }
+    else {
         $this->sendJSONResponse(array(
             'message' => 'No song with id "' . $songId . '"'
         ));
@@ -169,7 +168,8 @@ $application->route('`/artist/(.*?)/info(?:$|\?)`', function ($artisteId) {
 
     if ($artist) {
         $this->sendJSONResponse($artist);
-    } else {
+    }
+    else {
         $this->sendJSONResponse(array(
             'message' => 'No artist with id "' . $artisteId . '"'
         ));
@@ -183,7 +183,8 @@ $application->route('`/artist/(.*?)/albums(?:$|\?)`', function ($artisteId) {
 
     if ($albums) {
         $this->sendJSONResponse($albums);
-    } else {
+    }
+    else {
         $this->sendJSONResponse(array(
             'message' => 'No artist with id "' . $artisteId . '"'
         ));
@@ -197,19 +198,13 @@ $application->route('`/artist/search\?q=(.*)`', function ($searchArtist) {
 
     if ($songs) {
         $this->sendJSONResponse($songs);
-    } else {
+    }
+    else {
         $this->sendJSONResponse(array(
             'message' => 'No song founded for artist "' . $searchArtist . '"'
         ));
     }
 });
-
-
-
-
-
-
-
 
 
 $application->route('`(?:www/(?:$|\?))|(?:api\.php(?:$|\?))`', function () {
@@ -242,28 +237,26 @@ $application->route('`(?:www/(?:$|\?))|(?:api\.php(?:$|\?))`', function () {
                     'description' => 'HTTP GET. Get album informations by ID',
                     'exemple' => 'api.php/album/041e69294f0093ed9b5f0fc3950030425964daaae26b79.538/info'
                 ),
-                '[api.php?]/song/search?q={search}' => array(
-                    'description' => 'HTTP GET. Search song',
-                    'exemple' => 'api.php/song/search?q=hello'
-                ),
             ),
             'playlist' => array(
                 '[api.php?]/playlist/{playlistId}/add-song' => array(
                     'description' => 'HTTP POST. Add song to a playlist',
-                    'parameters'=>array(
-                        'songId'=>"ID of the song to add"
+                    'parameters' => array(
+                        'songId' => "ID of the song to add"
                     ),
                     'exemple' => 'api.php/http://127.0.0.1/__divers/dzr/source/Application/www/api.php/playlist/041e69294f0093ed9b5f0fc3950030425964afaec10276.573/add-song'
                 ),
-                '[api.php?]/song/search?q={search}' => array(
-                    'description' => 'HTTP GET. Search song',
-                    'exemple' => 'api.php/song/search?q=hello'
+                '[api.php?]/playlist/{playlistId}/remove-song/{songId}' => array(
+                    'description' => 'HTTP DELETE. Remove song from a playlist',
+                    'exemple' => 'api.php/playlist/041e69294f0093ed9b5f0fc3950030425964afaec10276.573/remove-song/041e69294f0093ed9b5f0fc3950030425964dab2082252.468'
                 ),
             ),
-
-
-
-
+            'artist' => array(
+                '[api.php?]/artist/search?q={search}' => array(
+                    'description' => 'HTTP GET. Search for an artist',
+                    'exemple' => 'api.php/artist/search?q=lauper'
+                ),
+            ),
 
 
         )

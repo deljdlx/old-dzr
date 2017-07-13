@@ -12,9 +12,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Export de la structure de la base pour dzr
-CREATE DATABASE IF NOT EXISTS `dzr` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
-USE `dzr`;
 
 -- Export de la structure de la table dzr. album
 CREATE TABLE IF NOT EXISTS `album` (

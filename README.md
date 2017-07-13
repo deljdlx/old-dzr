@@ -10,6 +10,9 @@ Ce projet permet de se connecter à l'api Deezer et de créer en local sa propre
 
 ## Installation
 Executer le fichier SQL source/Application/provision/mysql.all.sql.
+
+Attention le fichier SQL crée automatique une base de donnée "dzr"
+
 L'application n'a pas besoin configuration de virtual host 
 
 ## Configuration

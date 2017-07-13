@@ -22,11 +22,15 @@ Editer le fichier source/Application/Configuration/Datasource.php
 Si vous souhaitez compléter la base de donnée, éditer le fichier source/Application/bin/populate-database.php puis l'éxécuter.
 
 ## Test
-Se placer dans le dossier source/Application/www
+Sans configuration serveur :
 
-Pour le player : /index.php
+En ligne de commande se placer dans le dossier source/Application/www
 
-Pour l'API : /api.php
+Lancer php -S localhost:8000
+
+Pour le player : http://localhost:8000
+
+Pour l'API : http://localhost:8000/api.php
 
 
 ## Demo
